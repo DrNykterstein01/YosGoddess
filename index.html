@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yos es la mejor :3</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#0b1030; --noche2:#1d1f55; --oro:#ffe9a8; --papel:#fbf3e4;
+  --sobre:#f1dcc0; --sobre2:#e6c9a5; --rosa:#d94a6a; --linea:#cdb99a; --tinta:#3a2e4f;
+  --letra:"Dancing Script","Segoe Script","Brush Script MT",cursive;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:radial-gradient(ellipse at 50% 0%,var(--noche2),var(--noche) 70%);
+  font-family:var(--letra); color:var(--oro); overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+#estrellas{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+main{position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center}
+
+/* ---------- SOBRE ---------- */
+#escena-sobre{display:flex;flex-direction:column;align-items:center;gap:34px;transition:opacity .7s,transform .7s}
+#escena-sobre.fuera{opacity:0;transform:scale(.6) translateY(40px);pointer-events:none}
+#escena-sobre h1{font-size:2rem;margin:0;font-weight:700;text-shadow:0 0 18px rgba(255,233,168,.6)}
+.pista{font-size:1.3rem;opacity:.85;animation:late 2s ease-in-out infinite}
+.sobre{
+  position:relative;width:min(300px,78vw);aspect-ratio:3/2;cursor:pointer;
+  background:var(--sobre);border-radius:6px;perspective:900px;
+  box-shadow:0 18px 40px rgba(0,0,0,.5),0 0 40px rgba(255,233,168,.18);
+  animation:flota 4s ease-in-out infinite; border:0; padding:0; font:inherit;
+}
+.sobre:focus-visible{outline:3px solid var(--oro);outline-offset:6px}
+.sobre .bolsillo{
+  position:absolute;inset:0;border-radius:6px;
+  background:
+    linear-gradient(to bottom right,transparent 49.5%,var(--sobre2) 50%) left/50% 100% no-repeat,
+    linear-gradient(to bottom left,transparent 49.5%,var(--sobre2) 50%) right/50% 100% no-repeat;
+  clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);
+}
+.sobre .bolsillo{background:var(--sobre2);clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%)}
+.sobre .bolsillo::after{ /* pliegues laterales */
+  content:"";position:absolute;inset:0;background:var(--sobre);
+  clip-path:polygon(0 100%,0 0,52% 58%,0 100%, 100% 100%,100% 0,48% 58%,100% 100%);
+  opacity:.55;
+}
+.solapa{
+  position:absolute;left:0;top:0;width:100%;height:60%;
+  background:linear-gradient(#f7e6cc,var(--sobre));
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;transition:transform .8s cubic-bezier(.5,0,.2,1),background .8s;
+  z-index:3;
+}
+.corazon{position:absolute;left:50%;top:100%;width:46px;transform:translate(-50%,-85%);
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.35));animation:late 1.6s ease-in-out infinite;z-index:4}
+.sobre.abierto .solapa{transform:rotateX(180deg);background:var(--sobre2)}
+.sobre.abierto{animation:none}
+.sobre.abierto .corazon{opacity:0;transition:opacity .2s}
+
+/* ---------- CARTA ---------- */
+#escena-carta{display:none;flex-direction:column;align-items:center;gap:18px;opacity:0;transform:scale(.7);
+  transition:opacity .8s,transform .8s cubic-bezier(.2,.9,.3,1.2)}
+#escena-carta.ver{opacity:1;transform:none}
+.libro{position:relative;width:min(540px,92vw);height:min(470px,calc(100vh - 150px));min-height:400px;perspective:1400px}
+.hoja{
+  position:absolute;inset:0;background:var(--papel);border-radius:8px;padding:30px 34px 20px;
+  box-shadow:0 18px 40px rgba(0,0,0,.5),inset 0 0 60px rgba(205,185,154,.35);
+  display:flex;flex-direction:column;
+  opacity:0;pointer-events:none;
+  transition:transform .7s cubic-bezier(.4,.1,.2,1),opacity .55s;
+}
+.hoja.activa{opacity:1;pointer-events:auto;transform:none}
+.hoja.antes{transform:translateX(-70px) rotateY(-35deg)}
+.hoja.despues{transform:translateX(70px) rotateY(35deg)}
+.hoja textarea{
+  width:100%;border:0;background:transparent;resize:none;outline:0;color:var(--tinta);
+  font-family:var(--letra);font-size:1.45rem;line-height:38px;padding:0;overflow:hidden;
+  background-image:repeating-linear-gradient(transparent 0 37px,var(--linea) 37px 38px);
+  background-attachment:local;
+}
+.hoja textarea::placeholder{color:#b9a98f}
+.flor{display:block;margin:14px auto 0;width:130px;transform-origin:50% 100%;animation:mece 3.5s ease-in-out infinite}
+.flor .petalos{transform-origin:60px 52px;animation:gira 24s linear infinite}
+
+.controles{display:flex;align-items:center;gap:18px}
+.controles button{
+  width:48px;height:48px;border-radius:50%;border:2px solid var(--oro);background:rgba(255,233,168,.08);
+  color:var(--oro);font-size:1.5rem;cursor:pointer;font-family:inherit;transition:transform .2s,background .2s,opacity .2s;
+}
+.controles button:hover:not(:disabled){background:rgba(255,233,168,.25);transform:scale(1.12)}
+.controles button:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+.controles button:disabled{opacity:.25;cursor:default}
+.puntos{display:flex;gap:9px}
+.punto{width:10px;height:10px;border-radius:50%;background:rgba(255,233,168,.3);transition:.3s}
+.punto.on{background:var(--oro);transform:scale(1.4);box-shadow:0 0 10px var(--oro)}
+
+#musica-btn{position:fixed;top:14px;right:14px;z-index:5;display:none;width:44px;height:44px;border-radius:50%;
+  border:2px solid var(--oro);background:rgba(11,16,48,.6);color:var(--oro);font-size:1.3rem;cursor:pointer}
+#musica-btn.off{opacity:.45}
+
+/* chispas al abrir */
+.chispa{position:fixed;z-index:6;pointer-events:none;font-size:1.4rem;color:var(--oro);animation:salta 1.4s ease-out forwards}
+.chispa.rosa{color:var(--rosa)}
+
+@keyframes flota{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+@keyframes late{0%,100%{transform:translate(-50%,-85%) scale(1)}50%{transform:translate(-50%,-85%) scale(1.15)}}
+.pista{animation-name:pulsa}
+@keyframes pulsa{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes salta{to{transform:translate(var(--dx),var(--dy)) rotate(260deg) scale(.3);opacity:0}}
+@keyframes mece{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes gira{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<canvas id="estrellas"></canvas>
+<button id="musica-btn" aria-label="Activar o silenciar la música">♪</button>
+<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
+
+<main>
+  <section id="escena-sobre">
+    <h1>Tengo algo para ti</h1>
+    <button class="sobre" id="sobre" aria-label="Abrir el sobre">
+      <div class="bolsillo"></div>
+      <div class="solapa">
+        <svg class="corazon" viewBox="0 0 32 29" aria-hidden="true">
+          <path fill="#d94a6a" d="M16 28C5 20 1 14.500 1 9.200 1 4.700 4.400 1.500 8.400 1.500c3 0 5.700 1.700 7.600 4.600 1.900-2.900 4.600-4.600 7.600-4.600 4 0 7.400 3.200 7.400 7.700C31 14.500 27 20 16 28z"/>
+          <path fill="#fff" opacity=".35" d="M7 6c1.500-1.200 3.500-.8 4.300.6-1.800-.4-3.300 0-4.300-.6z"/>
+        </svg>
+      </div>
+    </button>
+    <div class="pista">Toca el sobre para abrirlo</div>
+  </section>
+
+  <section id="escena-carta">
+    <div class="libro" id="libro"></div>
+    <div class="controles">
+      <button id="ant" aria-label="Página anterior">‹</button>
+      <div class="puntos" id="puntos"></div>
+      <button id="sig" aria-label="Página siguiente">›</button>
+    </div>
+  </section>
+</main>
+
+<script>
+/* =====================  PERSONALIZA AQUÍ  =====================
+   Cada texto del arreglo es UNA hoja. La última hoja es la que
+   lleva 5 líneas y la flor amarilla. Puedes agregar o quitar hojas.
+   EDITABLE = true  → puedes escribir directo en la carta (mientras está abierta).
+   EDITABLE = false → la carta queda de solo lectura (ideal para regalarla).
+   MUSICA          → nombre de tu archivo mp3 (en la misma carpeta que este index.html). */
+const CARTA = ["", "", "", ""];
+const EDITABLE = true;
+const MUSICA = "music.mp3";
+/* ============================================================== */
+
+/* ---------- Fondo de estrellas ---------- */
+const cv = document.getElementById("estrellas"), cx = cv.getContext("2d");
+let estrellas = [], fugaz = null;
+function ajustar(){
+  cv.width = innerWidth; cv.height = innerHeight;
+  const n = Math.round(cv.width * cv.height / 5500);
+  estrellas = Array.from({length:n}, () => ({
+    x:Math.random()*cv.width, y:Math.random()*cv.height,
+    r:Math.random()*1.5+.3, f:Math.random()*Math.PI*2, v:Math.random()*.03+.01
+  }));
+}
+function pinta(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  for(const e of estrellas){
+    e.f += e.v;
+    cx.globalAlpha = .35 + .65*Math.abs(Math.sin(e.f));
+    cx.fillStyle = "#fff6d6";
+    cx.beginPath(); cx.arc(e.x,e.y,e.r,0,7); cx.fill();
+  }
+  if(!fugaz && Math.random() < .004) fugaz = {x:Math.random()*cv.width*.8, y:Math.random()*cv.height*.4, l:0};
+  if(fugaz){
+    fugaz.l += 9; const a = 1 - fugaz.l/220;
+    cx.globalAlpha = Math.max(a,0); cx.strokeStyle = "#ffe9a8"; cx.lineWidth = 2;
+    cx.beginPath(); cx.moveTo(fugaz.x+fugaz.l,fugaz.y+fugaz.l*.5);
+    cx.lineTo(fugaz.x+fugaz.l-70,fugaz.y+(fugaz.l-70)*.5); cx.stroke();
+    if(a <= 0) fugaz = null;
+  }
+  requestAnimationFrame(pinta);
+}
+addEventListener("resize", ajustar); ajustar(); pinta();
+
+/* ---------- Construir las hojas ---------- */
+const FLOR = `<svg class="flor" viewBox="0 0 120 150" aria-hidden="true">
+  <path d="M60 62 C58 95 62 120 60 148" stroke="#4f9a4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M60 112 C42 108 30 96 28 84 C46 86 58 98 60 112z" fill="#5fb15a"/>
+  <path d="M61 126 C80 122 92 110 94 98 C76 100 63 112 61 126z" fill="#5fb15a"/>
+  <g class="petalos">${[0,45,90,135,180,225,270,315].map(a =>
+    `<ellipse cx="60" cy="27" rx="11" ry="22" fill="#ffd21f" stroke="#f0b400" stroke-width="1.5" transform="rotate(${a} 60 52)"/>`).join("")}</g>
+  <circle cx="60" cy="52" r="12" fill="#b9741c"/><circle cx="56" cy="48" r="3.500" fill="#e0a04a"/>
+</svg>`;
+
+const libro = document.getElementById("libro"), puntos = document.getElementById("puntos");
+const hojas = CARTA.map((texto, i) => {
+  const ultima = i === CARTA.length - 1;
+  const h = document.createElement("div"); h.className = "hoja";
+  const t = document.createElement("textarea");
+  t.rows = ultima ? 5 : 8; t.style.height = (ultima ? 5 : 8) * 38 + "px";
+  t.value = texto; t.readOnly = !EDITABLE; t.spellcheck = false;
+  t.placeholder = EDITABLE ? "Escribe aquí…" : "";
+  t.setAttribute("aria-label", "Hoja " + (i+1));
+  h.appendChild(t);
+  if(ultima) h.insertAdjacentHTML("beforeend", FLOR);
+  libro.appendChild(h);
+  const p = document.createElement("div"); p.className = "punto"; puntos.appendChild(p);
+  return h;
+});
+
+/* ---------- Navegación ---------- */
+let actual = 0;
+const ant = document.getElementById("ant"), sig = document.getElementById("sig");
+function ir(n){
+  actual = Math.max(0, Math.min(hojas.length - 1, n));
+  hojas.forEach((h,i) => {
+    h.className = "hoja" + (i === actual ? " activa" : i < actual ? " antes" : " despues");
+    puntos.children[i].classList.toggle("on", i === actual);
+  });
+  ant.disabled = actual === 0; sig.disabled = actual === hojas.length - 1;
+}
+ant.onclick = () => ir(actual - 1);
+sig.onclick = () => ir(actual + 1);
+addEventListener("keydown", e => {
+  if(e.target.tagName === "TEXTAREA") return;
+  if(e.key === "ArrowLeft") ir(actual - 1);
+  if(e.key === "ArrowRight") ir(actual + 1);
+});
+let x0 = null;
+libro.addEventListener("touchstart", e => x0 = e.touches[0].clientX, {passive:true});
+libro.addEventListener("touchend", e => {
+  if(x0 === null) return; const d = e.changedTouches[0].clientX - x0; x0 = null;
+  if(Math.abs(d) > 60) ir(actual + (d < 0 ? 1 : -1));
+});
+ir(0);
+
+/* ---------- Abrir el sobre ---------- */
+const sobre = document.getElementById("sobre"), audio = document.getElementById("musica"),
+      mbtn = document.getElementById("musica-btn");
+audio.src = MUSICA;
+
+function chispas(){
+  const r = sobre.getBoundingClientRect(), cx0 = r.left + r.width/2, cy0 = r.top + r.height/2;
+  for(let i = 0; i < 26; i++){
+    const s = document.createElement("span"), a = Math.random()*Math.PI*2, d = 90 + Math.random()*170;
+    s.className = "chispa" + (i % 3 === 0 ? " rosa" : "");
+    s.textContent = i % 3 === 0 ? "♥" : "✦";
+    s.style.left = cx0 + "px"; s.style.top = cy0 + "px";
+    s.style.setProperty("--dx", Math.cos(a)*d + "px"); s.style.setProperty("--dy", Math.sin(a)*d + "px");
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1500);
+  }
+}
+
+sobre.addEventListener("click", () => {
+  if(sobre.classList.contains("abierto")) return;
+  sobre.classList.add("abierto");
+  document.querySelector(".pista").style.visibility = "hidden";
+  audio.play().then(() => { mbtn.style.display = "block"; }).catch(() => {});
+  chispas();
+  setTimeout(() => {
+    document.getElementById("escena-sobre").classList.add("fuera");
+    const c = document.getElementById("escena-carta");
+    c.style.display = "flex"; requestAnimationFrame(() => requestAnimationFrame(() => c.classList.add("ver")));
+    setTimeout(() => document.getElementById("escena-sobre").style.display = "none", 800);
+  }, 1100);
+});
+
+mbtn.addEventListener("click", () => {
+  if(audio.paused){ audio.play(); mbtn.classList.remove("off"); }
+  else { audio.pause(); mbtn.classList.add("off"); }
+});
+</script>
+</body>
+</html>
